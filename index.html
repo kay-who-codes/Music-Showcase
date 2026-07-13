@@ -39,6 +39,11 @@
     *,*::before,*::after{ animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; }
   }
 
+  html, body{
+    max-width:100%;
+    overflow-x:hidden;
+  }
+
   body{
     margin:0;
     background:var(--bg);
@@ -49,6 +54,7 @@
   }
 
   img{ max-width:100%; display:block; }
+  iframe{ max-width:100%; }
   a{ color:inherit; }
   button{ font-family:inherit; }
 
@@ -93,12 +99,14 @@
     gap:10px;
     text-decoration:none;
     min-height:48px;
+    min-width:0;
   }
   .brand-mark{
     display:flex;
     align-items:flex-end;
     gap:3px;
     height:22px;
+    flex:none;
   }
   .brand-mark span{
     width:4px;
@@ -120,6 +128,9 @@
     font-size:1.05rem;
     text-transform:uppercase;
     color:var(--text);
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
   }
   nav.nav-links{
     display:flex;
@@ -172,6 +183,7 @@
     background:var(--accent2);
     box-shadow:0 0 0 4px rgba(255,29,129,0.18);
     animation:pulse 1.8s ease-in-out infinite;
+    flex:none;
   }
   @keyframes pulse{
     0%,100%{ opacity:1; }
@@ -180,14 +192,15 @@
   h1.hero-title{
     font-family:var(--font-display);
     text-transform:uppercase;
-    font-size:clamp(2.6rem, 9vw, 6rem);
-    line-height:0.94;
+    font-size:clamp(2.2rem, 9vw, 6rem);
+    line-height:0.98;
     letter-spacing:-1px;
     margin:0 0 20px;
     background:linear-gradient(180deg,#fff, #cfcfcf);
     -webkit-background-clip:text;
     background-clip:text;
     -webkit-text-fill-color:transparent;
+    word-break:break-word;
   }
   .hero-title .accent-word{
     background:var(--gradient);
@@ -234,7 +247,7 @@
   /* ============================================================
      SECTION HEADINGS
      ============================================================ */
-  main{ display:block; }
+  main{ display:block; max-width:100%; overflow-x:hidden; }
   section{ padding:56px 0; }
   section + section{ border-top:1px solid var(--border); }
   .section-head{
@@ -248,7 +261,7 @@
   .section-head h2{
     font-family:var(--font-display);
     text-transform:uppercase;
-    font-size:clamp(1.5rem, 4vw, 2.2rem);
+    font-size:clamp(1.4rem, 4vw, 2.2rem);
     margin:0;
     letter-spacing:-0.5px;
   }
@@ -279,6 +292,7 @@
     display:inline-flex;
     align-items:center;
     transition:all 0.2s ease;
+    max-width:100%;
   }
   .pill:hover{ border-color:var(--accent); color:var(--text); }
   .pill.active{ background:var(--gradient); border-color:transparent; color:#fff; }
@@ -290,14 +304,16 @@
     display:grid;
     grid-template-columns:repeat(auto-fill, minmax(300px, 1fr));
     gap:22px;
+    padding-top:6px; /* room for glow bleed */
   }
   .card{
+    position:relative;
     background:var(--bg-card);
     border:1px solid var(--border);
     border-radius:var(--radius);
-    overflow:hidden;
     display:flex;
     flex-direction:column;
+    min-width:0;
     opacity:0;
     transform:translateY(16px);
     animation:rise 0.6s ease forwards;
@@ -309,11 +325,30 @@
     box-shadow:var(--shadow-lift);
   }
   @keyframes rise{ to{ opacity:1; transform:translateY(0); } }
+
+  /* Ambient glow sampled from each cover's dominant colour.
+     Sits behind everything (z-index:-1) so it bleeds past the
+     card edges without being clipped, and stays hidden behind
+     the card's own opaque background elsewhere. */
+  .card-glow{
+    position:absolute;
+    inset:-28px;
+    z-index:-1;
+    background:radial-gradient(circle, var(--glow-color, var(--accent)) 0%, transparent 70%);
+    filter:blur(28px);
+    opacity:0.55;
+    pointer-events:none;
+    border-radius:inherit;
+    transition:opacity 0.3s ease;
+  }
+  .card:hover .card-glow{ opacity:0.75; }
+
   .card-art{
     position:relative;
     aspect-ratio:16/9;
     background:linear-gradient(135deg,#232323,#181818);
     overflow:hidden;
+    border-radius:var(--radius) var(--radius) 0 0;
   }
   .card-art img{
     width:100%; height:100%;
@@ -344,19 +379,26 @@
     letter-spacing:1px;
     padding:6px 10px;
     border-radius:999px;
+    max-width:calc(100% - 24px);
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
   }
   .card-body{
     padding:18px 18px 8px;
     display:flex;
     flex-direction:column;
     gap:6px;
+    min-width:0;
   }
-  .card-title{ font-weight:800; font-size:1.05rem; margin:0; letter-spacing:-0.2px; }
+  .card-title{ font-weight:800; font-size:1.05rem; margin:0; letter-spacing:-0.2px; overflow-wrap:anywhere; }
   .card-artist{ color:var(--text-dim); font-size:0.88rem; margin:0; }
   .card-meta{
     display:flex;
     align-items:center;
     justify-content:space-between;
+    flex-wrap:wrap;
+    gap:4px 10px;
     font-family:var(--font-mono);
     font-size:0.72rem;
     color:var(--text-faint);
@@ -374,9 +416,41 @@
     border-radius:999px;
   }
 
+  /* Reveal / collapse control for tracklists + socials */
+  .reveal-btn{
+    align-self:flex-start;
+    margin:12px 0 2px;
+    background:transparent;
+    border:1px solid var(--border-strong);
+    color:var(--text-dim);
+    border-radius:999px;
+    padding:0 14px;
+    min-height:38px;
+    font-family:var(--font-mono);
+    font-size:0.68rem;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    cursor:pointer;
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    transition:all 0.2s ease;
+  }
+  .reveal-btn:hover{ color:var(--text); border-color:var(--accent); }
+  .reveal-btn .chev{ transition:transform 0.2s ease; display:inline-block; }
+  .card.expanded .reveal-btn .chev{ transform:rotate(180deg); }
+
+  /* Hidden by default: tracklist / player embed + streaming links */
+  .embed-wrap, .link-row, .tracklist-wrap{
+    display:none;
+  }
+  .card.expanded .embed-wrap{ display:block; }
+  .card.expanded .link-row{ display:flex; }
+  .card.expanded .tracklist-wrap{ display:block; }
+
   /* Embedded streaming player (Bandcamp / SoundCloud) */
   .embed-wrap{
-    margin:16px 0 4px;
+    margin:14px 0 4px;
     border-top:1px solid var(--border);
     padding-top:14px;
   }
@@ -397,7 +471,6 @@
 
   /* streaming links row */
   .link-row{
-    display:flex;
     flex-wrap:wrap;
     gap:8px;
     padding:14px 18px 18px;
@@ -422,10 +495,39 @@
   .link-chip svg{ width:13px; height:13px; flex:none; }
 
   .coming-soon-note{
-    padding:14px 18px 20px;
+    padding:14px 18px 4px;
     color:var(--text-faint);
     font-family:var(--font-mono);
     font-size:0.78rem;
+  }
+
+  /* Upcoming release tracklist preview */
+  .tracklist-wrap{
+    margin:4px 18px 18px;
+    border-top:1px solid var(--border);
+    padding-top:12px;
+  }
+  .tracklist{
+    list-style:none;
+    margin:0;
+    padding:0;
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+  }
+  .tracklist li{
+    display:flex;
+    align-items:baseline;
+    gap:10px;
+    font-size:0.86rem;
+    color:var(--text-dim);
+  }
+  .tracklist li .tnum{
+    font-family:var(--font-mono);
+    color:var(--text-faint);
+    font-size:0.72rem;
+    flex:none;
+    width:1.4em;
   }
 
   /* ============================================================
@@ -448,10 +550,10 @@
     padding:40px 0 32px;
     border-top:1px solid var(--border);
     color:var(--text-faint);
-    font-size:0.82rem;
+    font-size:0.8rem;
     display:flex;
     flex-wrap:wrap;
-    gap:14px;
+    gap:10px 14px;
     align-items:center;
     justify-content:space-between;
   }
@@ -462,10 +564,18 @@
      RESPONSIVE
      ============================================================ */
   @media (max-width:600px){
+    .wrap{ padding:0 16px; }
     .nav-links{ display:none; }
-    .hero{ padding:52px 0 44px; }
-    section{ padding:42px 0; }
-    .release-grid{ grid-template-columns:1fr; }
+    .nav-inner{ padding:12px 16px; }
+    .hero{ padding:48px 0 40px; }
+    section{ padding:38px 0; }
+    .release-grid{ grid-template-columns:1fr; gap:18px; }
+    .card-body{ padding:16px 16px 6px; }
+    .link-row{ padding:12px 16px 16px; }
+    .embed-wrap{ margin:12px 0 4px; }
+    .tracklist-wrap, .coming-soon-note{ margin-left:16px; margin-right:16px; padding-left:0; padding-right:0; }
+    .hero-actions .btn{ flex:1 1 auto; }
+    footer.site-footer{ justify-content:flex-start; }
   }
   @media (min-width:601px) and (max-width:900px){
     .release-grid{ grid-template-columns:repeat(2, 1fr); }
@@ -592,7 +702,14 @@ const UPCOMING = [
     artist: "Kay",
     tags: ["Rap"],
     releaseDate: "Soon",
-    coverArt: "Files/Inconsistence/Cover Art.png"
+    coverArt: "Files/Inconsistence/Cover Art.png",
+    tracks: [
+      "Static Mind",
+      "Overthink It",
+      "Loose Ends",
+      "Second Guessing",
+      "Steady Now"
+    ]
   }
 ];
 
@@ -675,6 +792,48 @@ function iconSvg(kind){
 }
 
 /* =============================================================
+   DOMINANT COLOUR EXTRACTION (for the ambient cover glow)
+   ---------------------------------------------------------------
+   Draws a scaled-down copy of the cover art to an off-screen canvas
+   and averages the pixel data to get a representative colour. Cover
+   art coming from other domains needs crossOrigin set BEFORE the
+   image loads for canvas reads to be allowed; if a host doesn't
+   send permissive CORS headers the canvas read will throw, and we
+   just fall back to the default accent glow instead of erroring.
+   ============================================================= */
+function applyDominantGlow(imgEl, glowEl){
+  const run = () => {
+    try{
+      const w = 24, h = 24;
+      const canvas = document.createElement("canvas");
+      canvas.width = w; canvas.height = h;
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(imgEl, 0, 0, w, h);
+      const data = ctx.getImageData(0, 0, w, h).data;
+      let r = 0, g = 0, b = 0, count = 0;
+      for (let i = 0; i < data.length; i += 4){
+        const alpha = data[i + 3];
+        if (alpha < 32) continue;
+        r += data[i]; g += data[i + 1]; b += data[i + 2];
+        count++;
+      }
+      if (count === 0) return;
+      r = Math.round(r / count); g = Math.round(g / count); b = Math.round(b / count);
+      glowEl.style.setProperty("--glow-color", `rgb(${r}, ${g}, ${b})`);
+    } catch (e){
+      // Canvas tainted by a non-CORS image host, or another read
+      // failure — silently keep the default accent-coloured glow.
+    }
+  };
+
+  if (imgEl.complete && imgEl.naturalWidth > 0){
+    run();
+  } else {
+    imgEl.addEventListener("load", run, { once: true });
+  }
+}
+
+/* =============================================================
    STATE
    ============================================================= */
 let activeTag = "All";
@@ -732,11 +891,12 @@ function buildLinkChips(links){
   return wrap;
 }
 
-function buildCoverArt(album, isUpcoming){
+function buildCoverArt(album, isUpcoming, glowEl){
   const artWrap = document.createElement("div");
   artWrap.className = "card-art";
 
   const img = document.createElement("img");
+  img.crossOrigin = "anonymous"; // needed for canvas colour sampling
   img.src = album.coverArt;
   img.alt = album.title + " cover art";
   img.loading = "lazy";
@@ -757,6 +917,8 @@ function buildCoverArt(album, isUpcoming){
     badge.textContent = "Coming " + formatDate(album.releaseDate);
     artWrap.appendChild(badge);
   }
+
+  if (glowEl) applyDominantGlow(img, glowEl);
 
   return artWrap;
 }
@@ -816,6 +978,23 @@ function buildEmbed(album){
   return wrap;
 }
 
+/* Toggle button that reveals/hides a card's tracklist + link row */
+function buildRevealButton(card, showLabel, hideLabel){
+  const btn = document.createElement("button");
+  btn.type = "button";
+  btn.className = "reveal-btn";
+  const setLabel = () => {
+    btn.innerHTML = (card.classList.contains("expanded") ? hideLabel : showLabel) +
+      ' <span class="chev" aria-hidden="true">▾</span>';
+  };
+  setLabel();
+  btn.addEventListener("click", () => {
+    card.classList.toggle("expanded");
+    setLabel();
+  });
+  return btn;
+}
+
 function renderReleases(){
   const grid = document.getElementById("releaseGrid");
   grid.innerHTML = "";
@@ -835,7 +1014,11 @@ function renderReleases(){
     card.className = "card";
     card.style.animationDelay = (i * 0.06) + "s";
 
-    card.appendChild(buildCoverArt(album, false));
+    const glow = document.createElement("div");
+    glow.className = "card-glow";
+    card.appendChild(glow);
+
+    card.appendChild(buildCoverArt(album, false, glow));
 
     const body = document.createElement("div");
     body.className = "card-body";
@@ -856,6 +1039,7 @@ function renderReleases(){
     body.appendChild(artist);
     body.appendChild(buildTagChips(album.tags));
     body.appendChild(meta);
+    body.appendChild(buildRevealButton(card, "Play &amp; links", "Hide player &amp; links"));
     body.appendChild(buildEmbed(album));
 
     card.appendChild(body);
@@ -863,6 +1047,26 @@ function renderReleases(){
 
     grid.appendChild(card);
   });
+}
+
+function buildTracklist(tracks){
+  const wrap = document.createElement("div");
+  wrap.className = "tracklist-wrap";
+  const list = document.createElement("ol");
+  list.className = "tracklist";
+  tracks.forEach((t, i) => {
+    const li = document.createElement("li");
+    const num = document.createElement("span");
+    num.className = "tnum";
+    num.textContent = String(i + 1).padStart(2, "0");
+    const name = document.createElement("span");
+    name.textContent = t;
+    li.appendChild(num);
+    li.appendChild(name);
+    list.appendChild(li);
+  });
+  wrap.appendChild(list);
+  return wrap;
 }
 
 function renderUpcoming(){
@@ -882,7 +1086,11 @@ function renderUpcoming(){
     card.className = "card";
     card.style.animationDelay = (i * 0.06) + "s";
 
-    card.appendChild(buildCoverArt(album, true));
+    const glow = document.createElement("div");
+    glow.className = "card-glow";
+    card.appendChild(glow);
+
+    card.appendChild(buildCoverArt(album, true, glow));
 
     const body = document.createElement("div");
     body.className = "card-body";
@@ -899,12 +1107,20 @@ function renderUpcoming(){
     body.appendChild(artist);
     body.appendChild(buildTagChips(album.tags));
 
+    if (album.tracks && album.tracks.length){
+      body.appendChild(buildRevealButton(card, "Tracklist", "Hide tracklist"));
+    }
+
     card.appendChild(body);
 
     const note = document.createElement("div");
     note.className = "coming-soon-note";
     note.textContent = "Releasing " + formatDate(album.releaseDate);
     card.appendChild(note);
+
+    if (album.tracks && album.tracks.length){
+      card.appendChild(buildTracklist(album.tracks));
+    }
 
     grid.appendChild(card);
   });
