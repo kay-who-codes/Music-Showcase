@@ -26,7 +26,6 @@
     --radius:        14px;
     --radius-lg:     22px;
     --shadow-lift:   0 18px 40px -18px rgba(0,0,0,0.65);
-    --player-h:      88px;
     --font-display:  'Arial Black', 'Helvetica Neue', Impact, sans-serif;
     --font-body:     -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     --font-mono:     ui-monospace, 'SF Mono', 'Cascadia Code', Menlo, Consolas, monospace;
@@ -47,7 +46,6 @@
     font-family:var(--font-body);
     line-height:1.5;
     -webkit-font-smoothing:antialiased;
-    padding-bottom:calc(var(--player-h) + 18px);
   }
 
   img{ max-width:100%; display:block; }
@@ -56,7 +54,6 @@
 
   ::selection{ background:var(--accent); color:#fff; }
 
-  /* Focus visibility */
   a:focus-visible, button:focus-visible, input:focus-visible{
     outline:2px solid var(--accent);
     outline-offset:3px;
@@ -158,10 +155,7 @@
     filter:blur(10px);
     pointer-events:none;
   }
-  .hero-inner{
-    position:relative;
-    z-index:1;
-  }
+  .hero-inner{ position:relative; z-index:1; }
   .hero-eyebrow{
     font-family:var(--font-mono);
     text-transform:uppercase;
@@ -207,11 +201,7 @@
     font-size:1.05rem;
     margin:0 0 34px;
   }
-  .hero-actions{
-    display:flex;
-    flex-wrap:wrap;
-    gap:12px;
-  }
+  .hero-actions{ display:flex; flex-wrap:wrap; gap:12px; }
   .btn{
     display:inline-flex;
     align-items:center;
@@ -268,21 +258,12 @@
     font-size:0.85rem;
     margin-right:10px;
   }
-  .section-sub{
-    color:var(--text-dim);
-    font-size:0.95rem;
-    max-width:520px;
-  }
+  .section-sub{ color:var(--text-dim); font-size:0.95rem; max-width:520px; }
 
   /* ============================================================
      TAG FILTER PILLS
      ============================================================ */
-  .filter-row{
-    display:flex;
-    flex-wrap:wrap;
-    gap:10px;
-    margin-bottom:34px;
-  }
+  .filter-row{ display:flex; flex-wrap:wrap; gap:10px; margin-bottom:34px; }
   .pill{
     min-height:44px;
     padding:0 18px;
@@ -300,18 +281,14 @@
     transition:all 0.2s ease;
   }
   .pill:hover{ border-color:var(--accent); color:var(--text); }
-  .pill.active{
-    background:var(--gradient);
-    border-color:transparent;
-    color:#fff;
-  }
+  .pill.active{ background:var(--gradient); border-color:transparent; color:#fff; }
 
   /* ============================================================
      RELEASE GRID / CARDS
      ============================================================ */
   .release-grid{
     display:grid;
-    grid-template-columns:repeat(auto-fill, minmax(260px, 1fr));
+    grid-template-columns:repeat(auto-fill, minmax(300px, 1fr));
     gap:22px;
   }
   .card{
@@ -331,12 +308,10 @@
     border-color:var(--border-strong);
     box-shadow:var(--shadow-lift);
   }
-  @keyframes rise{
-    to{ opacity:1; transform:translateY(0); }
-  }
+  @keyframes rise{ to{ opacity:1; transform:translateY(0); } }
   .card-art{
     position:relative;
-    aspect-ratio:1/1;
+    aspect-ratio:16/9;
     background:linear-gradient(135deg,#232323,#181818);
     overflow:hidden;
   }
@@ -357,25 +332,6 @@
     text-align:center;
     padding:14px;
   }
-  .art-play-btn{
-    position:absolute;
-    right:12px; bottom:12px;
-    width:52px; height:52px;
-    border-radius:50%;
-    background:var(--gradient);
-    border:none;
-    color:#fff;
-    display:flex; align-items:center; justify-content:center;
-    cursor:pointer;
-    box-shadow:0 10px 24px -8px rgba(0,0,0,0.6);
-    transform:translateY(10px);
-    opacity:0;
-    transition:all 0.25s ease;
-  }
-  .card:hover .art-play-btn, .card:focus-within .art-play-btn{
-    transform:translateY(0);
-    opacity:1;
-  }
   .badge-upcoming{
     position:absolute;
     top:12px; left:12px;
@@ -394,19 +350,9 @@
     display:flex;
     flex-direction:column;
     gap:6px;
-    flex:1;
   }
-  .card-title{
-    font-weight:800;
-    font-size:1.05rem;
-    margin:0;
-    letter-spacing:-0.2px;
-  }
-  .card-artist{
-    color:var(--text-dim);
-    font-size:0.88rem;
-    margin:0;
-  }
+  .card-title{ font-weight:800; font-size:1.05rem; margin:0; letter-spacing:-0.2px; }
+  .card-artist{ color:var(--text-dim); font-size:0.88rem; margin:0; }
   .card-meta{
     display:flex;
     align-items:center;
@@ -416,12 +362,7 @@
     color:var(--text-faint);
     margin-top:4px;
   }
-  .card-tags{
-    display:flex;
-    flex-wrap:wrap;
-    gap:6px;
-    margin-top:10px;
-  }
+  .card-tags{ display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; }
   .tag-chip{
     font-family:var(--font-mono);
     font-size:0.66rem;
@@ -433,48 +374,26 @@
     border-radius:999px;
   }
 
-  /* track list inside card */
-  .track-list{
-    list-style:none;
-    margin:14px 0 0;
-    padding:0;
+  /* Embedded streaming player (Bandcamp / SoundCloud) */
+  .embed-wrap{
+    margin:16px 0 4px;
     border-top:1px solid var(--border);
+    padding-top:14px;
   }
-  .track-row{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    padding:10px 0;
-    border-bottom:1px solid var(--border);
+  .embed-wrap iframe{
+    width:100%;
+    border:0;
+    border-radius:var(--radius-sm);
+    display:block;
   }
-  .track-row:last-child{ border-bottom:none; }
-  .track-play{
-    flex:0 0 auto;
-    width:36px; height:36px;
-    min-width:36px;
-    border-radius:50%;
-    border:1px solid var(--border-strong);
-    background:transparent;
-    color:var(--text);
-    display:flex; align-items:center; justify-content:center;
-    cursor:pointer;
-    transition:all 0.2s ease;
+  .embed-source-tag{
+    font-family:var(--font-mono);
+    font-size:0.64rem;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    color:var(--text-faint);
+    margin:0 0 8px;
   }
-  .track-play:hover{ border-color:var(--accent); color:var(--accent); }
-  .track-play.playing{
-    background:var(--gradient);
-    border-color:transparent;
-    color:#fff;
-  }
-  .track-name{
-    flex:1;
-    font-size:0.86rem;
-    min-width:0;
-    overflow:hidden;
-    text-overflow:ellipsis;
-    white-space:nowrap;
-  }
-  .track-row.active .track-name{ color:var(--accent); font-weight:700; }
 
   /* streaming links row */
   .link-row{
@@ -540,152 +459,6 @@
   footer.site-footer a:hover{ color:var(--accent); }
 
   /* ============================================================
-     STICKY PLAYER
-     ============================================================ */
-  .player-bar{
-    position:fixed;
-    left:0; right:0; bottom:0;
-    height:var(--player-h);
-    background:rgba(20,20,20,0.92);
-    backdrop-filter:blur(16px);
-    -webkit-backdrop-filter:blur(16px);
-    border-top:1px solid var(--border-strong);
-    z-index:100;
-    transform:translateY(100%);
-    transition:transform 0.35s cubic-bezier(.2,.9,.25,1);
-  }
-  .player-bar.visible{ transform:translateY(0); }
-  .player-inner{
-    max-width:1180px;
-    margin:0 auto;
-    height:100%;
-    display:flex;
-    align-items:center;
-    gap:14px;
-    padding:0 16px;
-  }
-  .player-art{
-    width:56px; height:56px;
-    border-radius:8px;
-    overflow:hidden;
-    flex:0 0 auto;
-    background:var(--bg-elev);
-    position:relative;
-  }
-  .player-art img{ width:100%; height:100%; object-fit:cover; }
-  .player-eq{
-    position:absolute; inset:0;
-    background:rgba(0,0,0,0.45);
-    display:none;
-    align-items:flex-end;
-    justify-content:center;
-    gap:3px;
-    padding-bottom:8px;
-  }
-  .player-eq.on{ display:flex; }
-  .player-eq span{
-    width:3px;
-    background:var(--accent);
-    border-radius:2px;
-    animation:eq 1s ease-in-out infinite;
-  }
-  .player-eq span:nth-child(1){ height:35%; animation-delay:-0.8s; }
-  .player-eq span:nth-child(2){ height:90%; animation-delay:-0.3s; }
-  .player-eq span:nth-child(3){ height:55%; animation-delay:-1s; }
-
-  .player-meta{
-    min-width:0;
-    flex:0 1 200px;
-  }
-  .player-track-title{
-    font-weight:700;
-    font-size:0.88rem;
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
-  }
-  .player-track-artist{
-    font-size:0.76rem;
-    color:var(--text-dim);
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
-  }
-
-  .player-controls{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    flex:0 0 auto;
-  }
-  .ctrl-btn{
-    width:44px; height:44px;
-    border-radius:50%;
-    border:none;
-    background:transparent;
-    color:var(--text);
-    display:flex; align-items:center; justify-content:center;
-    cursor:pointer;
-    transition:background 0.2s ease, color 0.2s ease;
-  }
-  .ctrl-btn:hover{ background:rgba(255,255,255,0.08); }
-  .ctrl-btn.play-toggle{
-    width:48px; height:48px;
-    background:var(--gradient);
-    color:#fff;
-  }
-  .ctrl-btn.play-toggle:hover{ filter:brightness(1.1); }
-
-  .player-progress-wrap{
-    display:none;
-    align-items:center;
-    gap:8px;
-    flex:1;
-    min-width:0;
-  }
-  .player-time{
-    font-family:var(--font-mono);
-    font-size:0.68rem;
-    color:var(--text-faint);
-    width:36px;
-    text-align:center;
-    flex:none;
-  }
-  .progress-track{
-    position:relative;
-    flex:1;
-    height:6px;
-    border-radius:999px;
-    background:rgba(255,255,255,0.12);
-    cursor:pointer;
-  }
-  .progress-fill{
-    position:absolute; left:0; top:0; bottom:0;
-    width:0%;
-    background:var(--gradient);
-    border-radius:999px;
-  }
-  .progress-thumb{
-    position:absolute;
-    top:50%;
-    width:13px; height:13px;
-    border-radius:50%;
-    background:#fff;
-    transform:translate(-50%,-50%);
-    left:0%;
-    box-shadow:0 0 0 4px rgba(255,89,60,0.25);
-  }
-
-  .player-close{
-    margin-left:auto;
-    flex:none;
-  }
-
-  @media (min-width:760px){
-    .player-progress-wrap{ display:flex; }
-  }
-
-  /* ============================================================
      RESPONSIVE
      ============================================================ */
   @media (max-width:600px){
@@ -693,9 +466,7 @@
     .hero{ padding:52px 0 44px; }
     section{ padding:42px 0; }
     .release-grid{ grid-template-columns:1fr; }
-    .player-meta{ flex:1 1 auto; }
   }
-
   @media (min-width:601px) and (max-width:900px){
     .release-grid{ grid-template-columns:repeat(2, 1fr); }
   }
@@ -761,7 +532,7 @@
       <div class="section-head">
         <div>
           <h2><span class="section-num">02</span>Releases</h2>
-          <p class="section-sub">Full projects and singles, out now on every major platform.</p>
+          <p class="section-sub">Full projects and singles, streaming straight from the source — no local audio files, just the players below.</p>
         </div>
       </div>
 
@@ -789,60 +560,30 @@
 </main>
 
 <footer class="site-footer wrap">
-  <span>&copy; <span id="year"></span> Artist Name. All rights reserved.</span>
-  <span>Built for the catalog — songs and art load from <code>/Files/</code></span>
+  <span>&copy; <span id="year"></span> Kay. All rights reserved.</span>
+  <span>Audio streams live from Bandcamp &amp; SoundCloud — nothing hosted in this repo.</span>
 </footer>
-
-<!-- =========================================================
-     STICKY PLAYER
-     ========================================================= -->
-<div class="player-bar" id="playerBar" role="region" aria-label="Now playing">
-  <div class="player-inner">
-    <div class="player-art" id="playerArt">
-      <img id="playerArtImg" src="" alt="" />
-      <div class="player-eq" id="playerEq"><span></span><span></span><span></span></div>
-    </div>
-    <div class="player-meta">
-      <div class="player-track-title" id="playerTrackTitle">—</div>
-      <div class="player-track-artist" id="playerTrackArtist">—</div>
-    </div>
-    <div class="player-controls">
-      <button class="ctrl-btn" id="prevBtn" aria-label="Previous track">
-        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M6 6h2v12H6zM20 6L10 12l10 6z"/></svg>
-      </button>
-      <button class="ctrl-btn play-toggle" id="playToggleBtn" aria-label="Play or pause">
-        <svg id="playIcon" viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-        <svg id="pauseIcon" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" style="display:none"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
-      </button>
-      <button class="ctrl-btn" id="nextBtn" aria-label="Next track">
-        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M16 6h2v12h-2zM4 6l10 6-10 6z"/></svg>
-      </button>
-    </div>
-    <div class="player-progress-wrap">
-      <span class="player-time" id="curTime">0:00</span>
-      <div class="progress-track" id="progressTrack">
-        <div class="progress-fill" id="progressFill"></div>
-        <div class="progress-thumb" id="progressThumb"></div>
-      </div>
-      <span class="player-time" id="durTime">0:00</span>
-    </div>
-    <button class="ctrl-btn player-close" id="closeBtn" aria-label="Close player">
-      <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M6.4 5L5 6.4 10.6 12 5 17.6 6.4 19l5.6-5.6 5.6 5.6 1.4-1.4-5.6-5.6L19 6.4 17.6 5 12 10.6z"/></svg>
-    </button>
-  </div>
-</div>
-
-<audio id="audioEl" preload="none"></audio>
 
 <script>
 /* =============================================================
    MUSIC DATA
-   Edit this section to add your own releases.
-   Place files at:  /Files/<Album Folder>/<file name>
-   Example:         /Files/Album 1/Song 1.mp3
-                     /Files/Album 1/Cover Art.png
+   ---------------------------------------------------------------
+   No audio files live in this repo anymore. Each release points at
+   an official embeddable player (Bandcamp or SoundCloud), so the
+   site can be hosted as plain static files on GitHub Pages with no
+   backend and no large binary assets in git.
+
+   HOW TO GET A BANDCAMP embed.albumId FOR A NEW RELEASE:
+     1. Open the album on Bandcamp.
+     2. Click Share / Embed (below the player) -> "Code".
+     3. In the generated iframe src, copy the number after "album=".
+        e.g. .../EmbeddedPlayer/album=858842496/...  -> albumId: "858842496"
+
+   HOW TO GET A SOUNDCLOUD embed.url (used as a fallback for
+   releases that aren't on Bandcamp, like "Rid" below):
+     Just use the public soundcloud.com URL for the track or set.
    ============================================================= */
-const ARTIST_NAME = "Artist Name";
+const ARTIST_NAME = "Kay";
 
 const RELEASES = [
   {
@@ -851,7 +592,9 @@ const RELEASES = [
     artist: "Kay",
     tags: ["Rap", "Comedy"],
     releaseDate: "2018-12-05",
-    coverArt: "\\Files\\Ornge\\Ornge Cover copy.png",
+    trackCount: 6,
+    coverArt: "https://f4.bcbits.com/img/a1530779251_5.jpg",
+    embed: { type: "bandcamp", albumId: "858842496" },
     links: {
       spotify: "https://open.spotify.com/album/20gmacxHPt2usW1xz159Fd",
       youtube: "https://www.youtube.com/watch?v=3kHWCAioOP8&list=PLdYcm7i691E8-AIpg-KZEPKaFq3tKl8u7",
@@ -859,15 +602,7 @@ const RELEASES = [
       amazonMusic: "https://music.amazon.co.uk/albums/B0B6CQ1GYD",
       bandcamp: "https://kaelinhalcrow.bandcamp.com/album/ornge-ep",
       soundcloud: "https://soundcloud.com/kay-who-raps/sets/ornge-ep"
-    },
-    songs: [
-      { title: "I Need Help", artist: "Kay", file: "Files/Ornge/I Need Help.WAV" },
-      { title: "Not In Scotland", artist: "Kay", file: "Files/Ornge/Not In Scotland.WAV" },
-      { title: "Ice Cream Man", artist: "Kay", file: "Files/Ornge/Ice Cream Man.WAV" },
-      { title: "Don't Wanna Lose My Teeth", artist: "Kay", file: "Files/Ornge/Don't Wanna Lose My Teeth.WAV" },
-      { title: "Drink to Get Drunk", artist: "Kay", file: "Files/Ornge/Drink to Get Drunk.WAV" },
-      { title: "If Only", artist: "Kay", file: "Files/Ornge/If Only.WAV" },
-    ]
+    }
   },
   {
     id: "General-Gibberish",
@@ -875,22 +610,17 @@ const RELEASES = [
     artist: "Kay",
     tags: ["Comedy", "Rap"],
     releaseDate: "2020-10-05",
-    coverArt: "/Files/General Gibberish/General Gibberish EP Relaunch Cover.png",
+    trackCount: 5,
+    coverArt: "https://f4.bcbits.com/img/a0168897867_5.jpg",
+    embed: { type: "bandcamp", albumId: "3985903115" },
     links: {
       spotify: "https://open.spotify.com/album/1cZsvLNLn8XrZNWfU7QcVG",
       youtube: "https://www.youtube.com/watch?v=T07VTBOusZ8&list=PLdYcm7i691E-ocXtEO4cLF7-oNPYHO9qG&index=1",
       appleMusic: "https://music.apple.com/us/album/general-gibberish-ep/1633057427",
       amazonMusic: "https://music.amazon.co.uk/albums/B0B5VF1VFY",
-      bandcamp: "https://kaelinhalcrow.bandcamp.com/album/general-gibberish-ep",
+      bandcamp: "https://kaelinhalcrow.bandcamp.com/album/general-gibberish",
       soundcloud: "https://soundcloud.com/kay-who-raps/sets/general-gibberish"
-    },
-    songs: [
-      { title: "Gooder Words", artist: "Artist Name", file: "Files/General Gibberish/Gooder Words.mp3" },
-      { title: "Upward Trajectory", artist: "Artist Name", file: "Files/General Gibberish/Upward Trajectory.mp3" },
-      { title: "Pneumonoultramicroscopicsilicovolcanoconiosis", artist: "Artist Name", file: "Files/General Gibberish/Pneumonoultramicroscopicsilicovolcanoconiosis.mp3" },
-      { title: "Plan B", artist: "Artist Name", file: "Files/General Gibberish/Plan B.mp3" },
-      { title: "Lexical Finesse", artist: "Artist Name", file: "Files/General Gibberish/Lexical Finesse.mp3" },
-    ]
+    }
   },
   {
     id: "Rid",
@@ -898,14 +628,15 @@ const RELEASES = [
     artist: "Kay",
     tags: ["Rap"],
     releaseDate: "2025-04-24",
-    coverArt: "/Files/Rid/Cover Art.png",
+    trackCount: 2,
+    // No Bandcamp release exists for this one yet — falls back to the
+    // SoundCloud set. Swap this to { type:"bandcamp", albumId:"..." }
+    // as soon as it's up on Bandcamp.
+    coverArt: "https://f4.bcbits.com/img/a1530779251_5.jpg",
+    embed: { type: "soundcloud", url: "https://soundcloud.com/kay-who-raps/sets/rid" },
     links: {
       soundcloud: "https://soundcloud.com/kay-who-raps/sets/rid"
-    },
-    songs: [
-      { title: "Cheater", artist: "Artist Name", file: "Files/Rid/Cheater.WAV" },
-      { title: "Bullseye", artist: "Artist Name", file: "Files/Rid/Bullseye.mp3" }
-    ]
+    }
   }
 ];
 
@@ -913,10 +644,10 @@ const UPCOMING = [
   {
     id: "upcoming-1",
     title: "Midnight Sessions",
-    artist: "Artist Name",
+    artist: "Kay",
     tags: ["EDM", "Rap"],
     releaseDate: "2026-09-19",
-    coverArt: "/Files/Midnight Sessions/Cover Art.png"
+    coverArt: "https://f4.bcbits.com/img/a1530779251_5.jpg"
   }
 ];
 
@@ -947,11 +678,6 @@ function iconSvg(kind){
    STATE
    ============================================================= */
 let activeTag = "All";
-let currentQueue = [];   // songs of the album currently loaded
-let currentIndex = -1;
-let currentAlbum = null;
-
-const audioEl = document.getElementById("audioEl");
 
 /* =============================================================
    RENDER: FILTER PILLS
@@ -1030,14 +756,6 @@ function buildCoverArt(album, isUpcoming){
     badge.className = "badge-upcoming";
     badge.textContent = "Coming " + formatDate(album.releaseDate);
     artWrap.appendChild(badge);
-  } else {
-    const playBtn = document.createElement("button");
-    playBtn.className = "art-play-btn";
-    playBtn.type = "button";
-    playBtn.setAttribute("aria-label", "Play " + album.title);
-    playBtn.innerHTML = '<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
-    playBtn.addEventListener("click", () => playAlbumFrom(album, 0));
-    artWrap.appendChild(playBtn);
   }
 
   return artWrap;
@@ -1055,31 +773,47 @@ function buildTagChips(tags){
   return wrap;
 }
 
-function buildTrackList(album){
-  const list = document.createElement("ul");
-  list.className = "track-list";
-  album.songs.forEach((song, idx) => {
-    const row = document.createElement("li");
-    row.className = "track-row";
-    row.dataset.albumId = album.id;
-    row.dataset.index = idx;
+/* Builds the official embeddable player for a release — Bandcamp or
+   SoundCloud, depending on where the release actually lives. This is
+   the piece that replaces local audio playback entirely. */
+function buildEmbed(album){
+  const wrap = document.createElement("div");
+  wrap.className = "embed-wrap";
+  if (!album.embed){
+    const note = document.createElement("p");
+    note.className = "embed-source-tag";
+    note.textContent = "Not streaming yet";
+    wrap.appendChild(note);
+    return wrap;
+  }
 
-    const btn = document.createElement("button");
-    btn.className = "track-play";
-    btn.type = "button";
-    btn.setAttribute("aria-label", "Play " + song.title);
-    btn.innerHTML = '<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
-    btn.addEventListener("click", () => playAlbumFrom(album, idx));
+  const sourceTag = document.createElement("p");
+  sourceTag.className = "embed-source-tag";
 
-    const name = document.createElement("span");
-    name.className = "track-name";
-    name.textContent = song.title;
+  const iframe = document.createElement("iframe");
+  iframe.loading = "lazy";
+  iframe.title = album.title + " by " + album.artist + " — player";
 
-    row.appendChild(btn);
-    row.appendChild(name);
-    list.appendChild(row);
-  });
-  return list;
+  if (album.embed.type === "bandcamp"){
+    sourceTag.textContent = "Playing via Bandcamp";
+    const id = album.embed.albumId;
+    iframe.src = "https://bandcamp.com/EmbeddedPlayer/album=" + id +
+      "/size=large/bgcol=1d1d1d/linkcol=ff593c/tracklist=true/artwork=none/transparent=true/";
+    iframe.seamless = true;
+    iframe.style.height = "470px";
+    iframe.allow = "encrypted-media";
+  } else if (album.embed.type === "soundcloud"){
+    sourceTag.textContent = "Playing via SoundCloud";
+    const src = "https://w.soundcloud.com/player/?url=" + encodeURIComponent(album.embed.url) +
+      "&color=%23ff593c&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&visual=false";
+    iframe.src = src;
+    iframe.style.height = "300px";
+    iframe.allow = "autoplay";
+  }
+
+  wrap.appendChild(sourceTag);
+  wrap.appendChild(iframe);
+  return wrap;
 }
 
 function renderReleases(){
@@ -1116,21 +850,19 @@ function renderReleases(){
 
     const meta = document.createElement("div");
     meta.className = "card-meta";
-    meta.innerHTML = "<span>" + formatDate(album.releaseDate) + "</span><span>" + album.songs.length + " track" + (album.songs.length === 1 ? "" : "s") + "</span>";
+    meta.innerHTML = "<span>" + formatDate(album.releaseDate) + "</span><span>" + album.trackCount + " track" + (album.trackCount === 1 ? "" : "s") + "</span>";
 
     body.appendChild(title);
     body.appendChild(artist);
     body.appendChild(buildTagChips(album.tags));
     body.appendChild(meta);
-    body.appendChild(buildTrackList(album));
+    body.appendChild(buildEmbed(album));
 
     card.appendChild(body);
     card.appendChild(buildLinkChips(album.links));
 
     grid.appendChild(card);
   });
-
-  syncActiveTrackHighlight();
 }
 
 function renderUpcoming(){
@@ -1205,140 +937,6 @@ function renderConnect(){
 }
 
 /* =============================================================
-   PLAYER LOGIC
-   ============================================================= */
-const playerBar      = document.getElementById("playerBar");
-const playerArtImg    = document.getElementById("playerArtImg");
-const playerEq        = document.getElementById("playerEq");
-const playerTitleEl   = document.getElementById("playerTrackTitle");
-const playerArtistEl  = document.getElementById("playerTrackArtist");
-const playToggleBtn   = document.getElementById("playToggleBtn");
-const playIcon        = document.getElementById("playIcon");
-const pauseIcon       = document.getElementById("pauseIcon");
-const prevBtn         = document.getElementById("prevBtn");
-const nextBtn         = document.getElementById("nextBtn");
-const closeBtn        = document.getElementById("closeBtn");
-const progressTrack   = document.getElementById("progressTrack");
-const progressFill    = document.getElementById("progressFill");
-const progressThumb   = document.getElementById("progressThumb");
-const curTimeEl       = document.getElementById("curTime");
-const durTimeEl       = document.getElementById("durTime");
-
-function playAlbumFrom(album, index){
-  currentAlbum = album;
-  currentQueue = album.songs;
-  currentIndex = index;
-  loadAndPlayCurrent();
-}
-
-function loadAndPlayCurrent(){
-  if (currentIndex < 0 || currentIndex >= currentQueue.length) return;
-  const song = currentQueue[currentIndex];
-
-  audioEl.src = song.file;
-  audioEl.play().catch(() => {
-    /* Autoplay or missing file — UI still updates so the user can retry */
-  });
-
-  playerArtImg.src = currentAlbum.coverArt;
-  playerArtImg.alt = currentAlbum.title + " cover art";
-  playerTitleEl.textContent = song.title;
-  playerArtistEl.textContent = song.artist || currentAlbum.artist;
-
-  playerBar.classList.add("visible");
-  setPlayingUI(true);
-  syncActiveTrackHighlight();
-}
-
-function setPlayingUI(isPlaying){
-  playIcon.style.display = isPlaying ? "none" : "block";
-  pauseIcon.style.display = isPlaying ? "block" : "none";
-  playerEq.classList.toggle("on", isPlaying);
-}
-
-function syncActiveTrackHighlight(){
-  document.querySelectorAll(".track-row").forEach(row => {
-    const isActive = currentAlbum && row.dataset.albumId === currentAlbum.id && Number(row.dataset.index) === currentIndex;
-    row.classList.toggle("active", !!isActive);
-    const btn = row.querySelector(".track-play");
-    if (btn) btn.classList.toggle("playing", !!isActive && !audioEl.paused);
-  });
-}
-
-playToggleBtn.addEventListener("click", () => {
-  if (!audioEl.src) return;
-  if (audioEl.paused){ audioEl.play().catch(()=>{}); }
-  else { audioEl.pause(); }
-});
-
-prevBtn.addEventListener("click", () => {
-  if (!currentQueue.length) return;
-  currentIndex = (currentIndex - 1 + currentQueue.length) % currentQueue.length;
-  loadAndPlayCurrent();
-});
-
-nextBtn.addEventListener("click", () => {
-  if (!currentQueue.length) return;
-  currentIndex = (currentIndex + 1) % currentQueue.length;
-  loadAndPlayCurrent();
-});
-
-closeBtn.addEventListener("click", () => {
-  audioEl.pause();
-  audioEl.removeAttribute("src");
-  audioEl.load();
-  playerBar.classList.remove("visible");
-  currentAlbum = null;
-  currentIndex = -1;
-  currentQueue = [];
-  syncActiveTrackHighlight();
-});
-
-audioEl.addEventListener("play",  () => { setPlayingUI(true);  syncActiveTrackHighlight(); });
-audioEl.addEventListener("pause", () => { setPlayingUI(false); syncActiveTrackHighlight(); });
-audioEl.addEventListener("ended", () => {
-  if (currentIndex < currentQueue.length - 1){
-    currentIndex += 1;
-    loadAndPlayCurrent();
-  } else {
-    setPlayingUI(false);
-  }
-});
-
-function formatTime(sec){
-  if (!isFinite(sec)) return "0:00";
-  const m = Math.floor(sec / 60);
-  const s = Math.floor(sec % 60).toString().padStart(2, "0");
-  return m + ":" + s;
-}
-
-audioEl.addEventListener("timeupdate", () => {
-  const pct = audioEl.duration ? (audioEl.currentTime / audioEl.duration) * 100 : 0;
-  progressFill.style.width = pct + "%";
-  progressThumb.style.left = pct + "%";
-  curTimeEl.textContent = formatTime(audioEl.currentTime);
-});
-audioEl.addEventListener("loadedmetadata", () => {
-  durTimeEl.textContent = formatTime(audioEl.duration);
-});
-
-function seekFromEvent(e){
-  const rect = progressTrack.getBoundingClientRect();
-  const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-  let pct = (clientX - rect.left) / rect.width;
-  pct = Math.min(1, Math.max(0, pct));
-  if (audioEl.duration){ audioEl.currentTime = pct * audioEl.duration; }
-}
-progressTrack.addEventListener("click", seekFromEvent);
-let dragging = false;
-progressTrack.addEventListener("mousedown", () => dragging = true);
-window.addEventListener("mousemove", e => { if (dragging) seekFromEvent(e); });
-window.addEventListener("mouseup", () => dragging = false);
-progressTrack.addEventListener("touchstart", () => dragging = true, {passive:true});
-window.addEventListener("touchmove", e => { if (dragging) seekFromEvent(e); }, {passive:true});
-window.addEventListener("touchend", () => dragging = false);
-
-/* =============================================================
    INIT
    ============================================================= */
 document.getElementById("year").textContent = new Date().getFullYear();
@@ -1351,4 +949,3 @@ renderConnect();
 </script>
 </body>
 </html>
-
