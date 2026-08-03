@@ -593,6 +593,12 @@ body[data-artist="team-sawrite"] .hero::before {
     width:1.4em;
   }
 
+.local-tracklist { margin-top: 12px; }
+.local-tracklist li { cursor: pointer; transition: color 0.15s; }
+.local-tracklist li:hover { color: var(--accent); }
+.local-tracklist li.playing { color: var(--accent); font-weight: 600; }
+.local-player audio { width: 100%; margin-top: 8px; }
+
   /* ============================================================
      EMPTY STATE
      ============================================================ */
@@ -741,10 +747,16 @@ body[data-artist="team-sawrite"] .hero::before {
 /* =============================================================
    MUSIC DATA
    ---------------------------------------------------------------
-   No audio files live in this repo anymore. Each release points at
-   an official embeddable player (Bandcamp or SoundCloud), so the
-   site can be hosted as plain static files on GitHub Pages with no
-   backend and no large binary assets in git.
+   Releases can stream from an official embeddable player (Bandcamp
+   or SoundCloud), or play mp3 files placed manually inside a
+   per-album folder under Files/. For local releases, set:
+     embed: {
+       type: "local",
+       folder: "Files/<Album Name>",
+       tracks: ["Track One", "Track Two", ...]
+     }
+   Each track title must match its mp3 filename exactly, e.g.
+   Files/<Album Name>/Track One.mp3
 
    HOW TO GET A BANDCAMP embed.albumId FOR A NEW RELEASE:
      1. Open the album on Bandcamp.
@@ -766,16 +778,46 @@ const ARTISTS = {
         id: "Inconsistence",
         title: "Inconsistence",
         artist: "Kay",
-        tags: ["Rap"],
+        tags: ["Comedy", "Rap"],
         releaseDate: "Soon",
         coverArt: "Files/Inconsistence/Cover Art.png",
         tracks: [
-          "Static Mind",
-          "Overthink It",
-          "Loose Ends",
-          "Second Guessing",
-          "Steady Now"
+          "Song_1",
+          "Song_2",
+          "Song_3",
+          "Song_4",
+          "Song_5"
         ]
+      },
+      {
+        id: "Throwawai-x",
+        title: "Throwawai x",
+        artist: "Kay",
+        tags: ["Rap"],
+        releaseDate: "Soon",
+        coverArt: "Files/Throwawai x/Cover Art.png",
+        tracks: [
+            "My Name is Kay",
+            "Give Way",
+            "A Fine Day for Some Ass",
+            "Welcome to the United Kingdom",
+            "This Accent",
+            "Snowball Game",
+            "Brain"
+          ],
+        embed: {
+          type: "local",
+          folder: "Files/Throwawai x",
+          tracks: [
+            "My Name is Kay",
+            "Give Way",
+            "A Fine Day for Some Ass",
+            "Welcome to the United Kingdom",
+            "This Accent",
+            "Snowball Game",
+            "Brain"
+          ]
+        }
       }
     ],
     releases: [
@@ -838,7 +880,7 @@ const ARTISTS = {
       tiktok:     "https://tiktok.com/@kay_who_talks"
     }
   },
- 
+
   "team-sawrite": {
     id: "team-sawrite",
     name: "Team Sawrite",
@@ -858,7 +900,7 @@ const ARTISTS = {
   ],
     releases: [
       // Add Team Sawrite releases here, same shape as Kay's releases.
-      // Example:
+      // Example (streaming):
       // {
       //   id: "release-id",
       //   title: "Release Title",
@@ -875,6 +917,22 @@ const ARTISTS = {
       //     bandcamp: "",
       //     soundcloud: ""
       //   }
+      // }
+      // Example (local mp3 files):
+      // {
+      //   id: "release-id",
+      //   title: "Release Title",
+      //   artist: "Team Sawrite",
+      //   tags: ["Rap"],
+      //   releaseDate: "2026-01-01",
+      //   trackCount: 2,
+      //   coverArt: "Files/ReleaseFolder/Cover Art.png",
+      //   embed: {
+      //     type: "local",
+      //     folder: "Files/ReleaseFolder",
+      //     tracks: ["Track One", "Track Two"]
+      //   },
+      //   links: {}
       // }
   {
     id: "Comedy-Silver",
@@ -893,8 +951,8 @@ const ARTISTS = {
       soundcloud: "https://soundcloud.com/teamsawrite/sets/comedy-silver"
     }
   },
-  
-      
+
+
   {
     id: "Perfect-Enough",
     title: "Perfect Enough",
@@ -958,7 +1016,7 @@ const ARTISTS = {
     }
   }
 };
- 
+
 /* Streaming platform master list — used on release cards (buildLinkChips) */
 const PLATFORM_META = {
   spotify:     { label: "Spotify",      icon: "circle" },
@@ -966,7 +1024,7 @@ const PLATFORM_META = {
   appleMusic:  { label: "Apple Music",  icon: "note" },
   soundcloud:  { label: "SoundCloud",   icon: "cloud" }
 };
- 
+
 /* Social platform master list — used in the Connect section (renderConnect) */
 const SOCIAL_META = {
   linktree:   { label: "Linktree",   icon: "linktree" },
@@ -974,7 +1032,7 @@ const SOCIAL_META = {
   soundcloud: { label: "SoundCloud", icon: "cloud" },
   tiktok:     { label: "TikTok",     icon: "tiktok" }
 };
- 
+
 /* =============================================================
    ICON HELPERS (inline SVG, no external dependencies)
    ============================================================= */
@@ -1183,9 +1241,76 @@ function buildTagChips(tags){
   return wrap;
 }
  
-/* Builds the official embeddable player for a release — Bandcamp or
-   SoundCloud, depending on where the release actually lives. This is
-   the piece that replaces local audio playback entirely. */
+/* Local MP3 player — used when a release's (or upcoming item's)
+   embed.type is "local". Expects embed.folder (e.g.
+   "Files/Throwawai x") and embed.tracks (array of track titles
+   that map 1:1 to "<folder>/<title>.mp3"). Renders a native
+   <audio> element plus a clickable tracklist, and auto-advances to
+   the next track when one finishes. */
+function buildLocalPlayer(album){
+  const wrap = document.createElement("div");
+  wrap.className = "embed-wrap local-player";
+ 
+  const sourceTag = document.createElement("p");
+  sourceTag.className = "embed-source-tag";
+  sourceTag.textContent = "Playing local files";
+  wrap.appendChild(sourceTag);
+ 
+  const audio = document.createElement("audio");
+  audio.controls = true;
+  audio.preload = "none";
+  wrap.appendChild(audio);
+ 
+  const list = document.createElement("ol");
+  list.className = "tracklist local-tracklist";
+ 
+  const trackUrl = (title) => `${album.embed.folder}/${title}.mp3`;
+ 
+  let activeLi = null;
+  const loadTrack = (title, li, autoplay) => {
+    audio.src = trackUrl(title);
+    if (activeLi) activeLi.classList.remove("playing");
+    li.classList.add("playing");
+    activeLi = li;
+    if (autoplay) audio.play().catch(() => {});
+  };
+ 
+  album.embed.tracks.forEach((title, i) => {
+    const li = document.createElement("li");
+    const num = document.createElement("span");
+    num.className = "tnum";
+    num.textContent = String(i + 1).padStart(2, "0");
+    const name = document.createElement("span");
+    name.textContent = title;
+    li.appendChild(num);
+    li.appendChild(name);
+    li.addEventListener("click", () => loadTrack(title, li, true));
+    list.appendChild(li);
+  });
+ 
+  // Auto-advance to the next track when one finishes
+  audio.addEventListener("ended", () => {
+    const items = Array.from(list.children);
+    const idx = items.indexOf(activeLi);
+    if (idx > -1 && idx < items.length - 1){
+      const nextLi = items[idx + 1];
+      loadTrack(album.embed.tracks[idx + 1], nextLi, true);
+    }
+  });
+ 
+  wrap.appendChild(list);
+ 
+  // Preload the first track (not autoplaying) so controls aren't empty
+  if (album.embed.tracks.length){
+    loadTrack(album.embed.tracks[0], list.children[0], false);
+  }
+ 
+  return { wrap, updateColor: () => {} }; // no dynamic accent needed for local playback
+}
+ 
+/* Builds the player for a release — Bandcamp, SoundCloud, or a local
+   mp3 folder, depending on where the release actually lives. Also
+   used by upcoming items that have an embed field set. */
 function buildEmbed(album, initialHex){
   const wrap = document.createElement("div");
   wrap.className = "embed-wrap";
@@ -1195,6 +1320,10 @@ function buildEmbed(album, initialHex){
     note.textContent = "Not streaming yet";
     wrap.appendChild(note);
     return { wrap, updateColor: () => {} };
+  }
+ 
+  if (album.embed.type === "local"){
+    return buildLocalPlayer(album);
   }
  
   const sourceTag = document.createElement("p");
@@ -1319,6 +1448,8 @@ function renderReleases(){
   });
 }
  
+/* Plain tracklist reveal — used for upcoming items that don't have
+   an embed yet (no playable audio, just titles). */
 function buildTracklist(tracks){
   const wrap = document.createElement("div");
   wrap.className = "tracklist-wrap";
@@ -1362,7 +1493,13 @@ function renderUpcoming(){
     glow.className = "card-glow";
     card.appendChild(glow);
  
-    card.appendChild(buildCoverArt(album, true, glow));
+    // If this upcoming item has a working local mp3 preview, build
+    // its player the same way a full release would, and let the
+    // sampled cover color feed back into it (local player ignores
+    // the color, but this keeps behavior consistent with releases).
+    const embedResult = album.embed ? buildEmbed(album) : null;
+ 
+    card.appendChild(buildCoverArt(album, true, glow, embedResult ? (hex) => embedResult.updateColor(hex) : undefined));
  
     const content = document.createElement("div");
     content.className = "card-content";
@@ -1382,8 +1519,13 @@ function renderUpcoming(){
     body.appendChild(artist);
     body.appendChild(buildTagChips(album.tags));
  
-    if (album.tracks && album.tracks.length){
-      body.appendChild(buildRevealButton(card, "Tracklist", "Hide tracklist"));
+    const hasTracks = album.tracks && album.tracks.length;
+    if (hasTracks){
+      body.appendChild(buildRevealButton(
+        card,
+        embedResult ? "Preview &amp; tracklist" : "Tracklist",
+        embedResult ? "Hide preview &amp; tracklist" : "Hide tracklist"
+      ));
     }
  
     content.appendChild(body);
@@ -1393,7 +1535,11 @@ function renderUpcoming(){
     note.textContent = "Releasing " + formatDate(album.releaseDate);
     content.appendChild(note);
  
-    if (album.tracks && album.tracks.length){
+    // Prefer the real player when an embed is present; otherwise fall
+    // back to the plain, non-playable tracklist.
+    if (embedResult){
+      content.appendChild(embedResult.wrap);
+    } else if (hasTracks){
       content.appendChild(buildTracklist(album.tracks));
     }
  
