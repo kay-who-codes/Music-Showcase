@@ -3,6 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- App icons -->
+<link rel="icon" type="image/x-icon" href="AppFiles/Icons/favicon.ico">
+<link rel="icon" type="image/png" sizes="192x192" href="AppFiles/Logos/AppIcon192px.png">
+<link rel="icon" type="image/png" sizes="512x512" href="AppFiles/Logos/AppIcon512px.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0d1210">
+<!-- End app icons -->
+
+  
 <title>💿 Music Showcase</title>
 <style>
 
@@ -769,10 +780,10 @@ body[data-artist="team-sawrite"] .hero::before {
      Just use the public soundcloud.com URL for the track or set.
    ============================================================= */
 const ARTISTS = {
-  "kay": {
+  kay: {
     id: "kay",
     name: "Kay",
-    heroSub: "Pushing the boundaries of music — browse every release, press play, and follow the catalog as it grows.",
+    heroSub: "Pushing the boundaries of music — browse every release, press play, and follow the catalogue as it grows.",
     upcoming: [
       {
         id: "Inconsistence",
@@ -781,13 +792,7 @@ const ARTISTS = {
         tags: ["Comedy", "Rap"],
         releaseDate: "Soon",
         coverArt: "Files/Inconsistence/Cover Art.png",
-        tracks: [
-          "Song_1",
-          "Song_2",
-          "Song_3",
-          "Song_4",
-          "Song_5"
-        ]
+        tracks: ["Song_1", "Song_2", "Song_3", "Song_4", "Song_5"]
       },
       {
         id: "Throwawai-x",
@@ -797,14 +802,14 @@ const ARTISTS = {
         releaseDate: "Soon",
         coverArt: "Files/Throwawai x/Cover Art.png",
         tracks: [
-            "My Name is Kay",
-            "Give Way",
-            "A Fine Day for Some Ass",
-            "Welcome to the United Kingdom",
-            "This Accent",
-            "Snowball Game",
-            "Brain"
-          ],
+          "My Name is Kay",
+          "Give Way",
+          "A Fine Day for Some Ass",
+          "Welcome to the United Kingdom",
+          "This Accent",
+          "Snowball Game",
+          "Big Fat Wrinkly Brain"
+        ],
         embed: {
           type: "local",
           folder: "Files/Throwawai x",
@@ -816,6 +821,60 @@ const ARTISTS = {
             "This Accent",
             "Snowball Game",
             "Brain"
+          ]
+        }
+      },
+      {
+        id: "throwawai-unassigned",
+        title: "Throwawai Unassigned",
+        artist: "Kay",
+        tags: ["Comedy", "Rap"],
+        releaseDate: "TBC",
+        coverArt: "",
+        tracks: [
+          "Return of the Kay",
+          "Talk Like a Popstar",
+          "Words are Powerful (Freestyle) ",
+          "Big Man Energy",
+          "Heterosexual Carnivorous White Male",
+          "Age of Trash - Mercado Del Fuego",
+          "Tap on the Shoulder - Four Voices",
+          "Light Always Wins",
+          "Back When (I Slew Crack)",
+          "My Name is Kay 2",
+          "Extremely Personal Love Song (mentioning full names, addresses, etc)",
+          "Apprehensive Love Song - Plastic Smile Riot 1",
+          "Cheer the FUCK Up - Ska Pop Rap",
+          "Glass Cow",
+          "I Know - Chop My Name",
+          "Unnamed - Neon Tide 1",
+          "Keep it Moving - All Average",
+          "Bitches Ain't Shit",
+          "Feisty Sexy Spanish Song"
+        ],
+        embed: {
+          type: "local",
+          folder: "Files/Throwawai Unassigned",
+          tracks: [
+            "Return of the Kay",
+            "Talk Like a Popstar",
+            "Words are Powerful (Freestyle) ",
+            "Big Man Energy",
+            "Heterosexual Carnivorous White Male",
+            "Age of Trash",
+            "Tap on the Shoulder",
+            "Light Always Wins",
+            "Back When",
+            "My Name is Kay 2",
+            "Extremely Personal Love Song",
+            "Apprehensive Love Song",
+            "Cheer the FUCK Up",
+            "Glass Cow",
+            "I Know",
+            "Unnamed",
+            "Keep it Moving",
+            "Bitches Ain't Shit",
+            "Feisty Sexy Spanish Song"
           ]
         }
       }
@@ -830,7 +889,10 @@ const ARTISTS = {
         trackCount: 2,
         coverArt: "https://i1.sndcdn.com/artworks-ey8HjflV1MtZcKSk-0Nr54Q-t200x200.jpg",
         overrideColor: "",
-        embed: { type: "soundcloud", url: "https://soundcloud.com/kay-who-raps/sets/rid" },
+        embed: {
+          type: "soundcloud",
+          url: "https://soundcloud.com/kay-who-raps/sets/rid"
+        },
         links: {
           soundcloud: "https://soundcloud.com/kay-who-raps/sets/rid"
         }
@@ -844,7 +906,10 @@ const ARTISTS = {
         trackCount: 5,
         coverArt: "Files/General Gibberish/Cover Art.png",
         overrideColor: "#dedede",
-        embed: { type: "bandcamp", albumId: "3985903115" },
+        embed: {
+          type: "bandcamp",
+          albumId: "3985903115"
+        },
         links: {
           spotify: "https://open.spotify.com/album/1cZsvLNLn8XrZNWfU7QcVG",
           youtube: "https://www.youtube.com/watch?v=T07VTBOusZ8&list=PLdYcm7i691E-ocXtEO4cLF7-oNPYHO9qG&index=1",
@@ -862,7 +927,10 @@ const ARTISTS = {
         releaseDate: "2018-12-05",
         trackCount: 6,
         coverArt: "Files/Ornge/Cover Art.png",
-        embed: { type: "bandcamp", albumId: "858842496" },
+        embed: {
+          type: "bandcamp",
+          albumId: "858842496"
+        },
         links: {
           spotify: "https://open.spotify.com/album/20gmacxHPt2usW1xz159Fd",
           youtube: "https://www.youtube.com/watch?v=3kHWCAioOP8&list=PLdYcm7i691E8-AIpg-KZEPKaFq3tKl8u7",
@@ -874,10 +942,107 @@ const ARTISTS = {
       }
     ],
     connect: {
-      linktree:   "https://linktr.ee/kaywhocreates",
-      instagram:  "https://instagram.com/kay_who_raps",
+      linktree: "https://linktr.ee/kaywhocreates",
+      instagram: "https://instagram.com/kay_who_raps",
       soundcloud: "https://soundcloud.com/kay-who-raps",
-      tiktok:     "https://tiktok.com/@kay_who_talks"
+      tiktok: "https://tiktok.com/@kay_who_talks"
+    }
+  },
+  "team-sawrite": {
+    id: "team-sawrite",
+    name: "Team Sawrite",
+    heroSub: "The Team Sawrite catalog — browse every release, press play, and follow along as new tracks drop.",
+    upcoming: [],
+    releases: [
+      {
+        id: "Comedy-Silver",
+        title: "Comedy Silver",
+        artist: "Team Sawrite",
+        tags: ["Comedy", "Rap", "Rock", "EDM"],
+        releaseDate: "2024-11-01",
+        trackCount: 12,
+        coverArt: "https://f4.bcbits.com/img/a0697400269_2.jpg",
+        embed: {
+          type: "bandcamp",
+          albumId: "3721741434"
+        },
+        links: {
+          spotify: "https://open.spotify.com/album/0PpWNpG2lMsEnJFHibxheS",
+          youtube: "https://music.youtube.com/playlist?list=OLAK5uy_m7F0eI5NbBBixyKGaMNU8c_WiF4jBc6rs",
+          appleMusic: "https://music.apple.com/us/album/comedy-silver/1774260491",
+          bandcamp: "https://teamsawrite.bandcamp.com/album/comedy-silver",
+          soundcloud: "https://soundcloud.com/teamsawrite/sets/comedy-silver"
+        }
+      },
+      {
+        id: "Perfect-Enough",
+        title: "Perfect Enough",
+        artist: "Team Sawrite",
+        tags: ["Comedy", "Rap", "Rock"],
+        releaseDate: "2018-11-06",
+        trackCount: 23,
+        coverArt: "https://f4.bcbits.com/img/a1421228512_2.jpg",
+        overrideColor: "LIME",
+        embed: {
+          type: "bandcamp",
+          albumId: "2427953039"
+        },
+        links: {
+          spotify: "https://open.spotify.com/album/0uoS1zb7djVPyHBEeympZm",
+          youtube: "https://music.youtube.com/playlist?list=OLAK5uy_kqZM09Jsdsr07-P2scH4bWK0jwTcTl65U",
+          appleMusic: "https://music.apple.com/us/album/perfect-enough/1437915878",
+          bandcamp: "https://teamsawrite.bandcamp.com/album/perfect-enough",
+          soundcloud: "https://soundcloud.com/teamsawrite/sets/perfect-enough"
+        }
+      },
+      {
+        id: "Our-First-Time",
+        title: "Our First Time",
+        artist: "Team Sawrite",
+        tags: ["Comedy", "Rap", "EDM", "Rock"],
+        releaseDate: "2016-05-13",
+        trackCount: 5,
+        coverArt: "https://f4.bcbits.com/img/a0942874352_2.jpg",
+        overrideColor: "#dedede",
+        embed: {
+          type: "bandcamp",
+          albumId: "89312972"
+        },
+        links: {
+          spotify: "https://open.spotify.com/album/0z5ZOqIF9wCzg1Q5zlqs7v",
+          youtube: "https://music.youtube.com/playlist?list=OLAK5uy_kIBCMMtGe2B4zgM5Zu0bBwT5O_4e8EW3g",
+          appleMusic: "https://music.apple.com/us/album/our-first-time-ep/1109448309",
+          bandcamp: "https://teamsawrite.bandcamp.com/album/our-first-time",
+          soundcloud: "https://soundcloud.com/teamsawrite/sets/our-first-time-ep"
+        }
+      },
+      {
+        id: "Overfrozen",
+        title: "Overfrozen",
+        artist: "Team Sawrite",
+        tags: ["EDM"],
+        releaseDate: "2016-12-24",
+        trackCount: 3,
+        coverArt: "https://f4.bcbits.com/img/a0143766650_2.jpg",
+        overrideColor: "LIGHTBLUE",
+        embed: {
+          type: "bandcamp",
+          albumId: "2608825454"
+        },
+        links: {
+          spotify: "",
+          youtube: "",
+          appleMusic: "",
+          bandcamp: "https://teamsawrite.bandcamp.com/album/overfrozen",
+          soundcloud: "https://soundcloud.com/teamsawrite/sets/overfrozen-single"
+        }
+      }
+    ],
+    connect: {
+      linktree: "https://linktr.ee/teamsawrite",
+      instagram: "https://instagram.com/teamsawrite",
+      soundcloud: "https://soundcloud.com/teamsawrite",
+      tiktok: "https://www.tiktok.com/@teamsawrite"
     }
   },
 
